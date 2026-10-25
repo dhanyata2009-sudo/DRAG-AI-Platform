@@ -1,0 +1,191 @@
+@import "tailwindcss";
+
+/* ============================================================
+   DRAG.ai — Design Tokens
+   Signature language: "neural circuit → play" (from the logo)
+   used as recurring motif for dividers, corners & accents.
+   ============================================================ */
+
+@theme {
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-magenta: #9a6a43;
+  --color-violet: #8b6b4a;
+  --color-violet-300: #a98a68;
+  --color-violet-400: #947353;
+  --color-violet-500: #806044;
+  --color-violet-600: #715239;
+  --color-violet-700: #5e432f;
+  --color-indigo: #76634d;
+  --color-blue: #68705b;
+  --color-blue-600: #68705b;
+  --color-cyan: #a77b50;
+  --color-cyan-400: #8a795f;
+  --color-cyan-500: #77684f;
+
+  --shadow-glow: 0 0 80px -20px rgba(139, 107, 74, 0.28);
+}
+
+/* -------------------- Runtime semantic tokens (theme-aware) --------------------
+   These are plain CSS custom properties (not Tailwind @theme colors) so their
+   values can be swapped at runtime via the .theme-light class on <body>.
+   Reference them in components as bg-[var(--c-bg)], text-[var(--c-ink)], etc.
+------------------------------------------------------------------------------ */
+
+:root,
+body {
+  --c-bg: #f2eadf;
+  --c-surface: #fbf7f0;
+  --c-surface-2: #e9dfd1;
+  --c-surface-hover: #e2d5c4;
+  --c-border: #d3c4b1;
+  --c-ink: #2c261f;
+  --c-muted: #6e6256;
+  --c-faint: #948575;
+}
+
+body.theme-light {
+  --c-bg: #faf5ec;
+  --c-surface: #fffdf8;
+  --c-surface-2: #f1e8db;
+  --c-surface-hover: #eadfce;
+  --c-border: #ddd0bd;
+  --c-ink: #29231d;
+  --c-muted: #6d6257;
+  --c-faint: #998b7b;
+}
+
+/* -------------------- Base -------------------- */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--c-bg);
+  color: var(--c-ink);
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+::selection {
+  background: var(--color-violet);
+  color: white;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--color-violet), var(--color-blue));
+  border-radius: 999px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-cyan);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* -------------------- Reusable primitives -------------------- */
+
+.font-display {
+  font-family: var(--font-display);
+}
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, #765237, #9a6a43 48%, #68705b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.bg-gradient-brand {
+  background: linear-gradient(120deg, #765237, #9a6a43 52%, #68705b);
+}
+
+.glass {
+  background: color-mix(in srgb, var(--c-surface) 65%, transparent);
+  border: 1px solid var(--c-border);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+.theme-light .glass {
+  background: color-mix(in srgb, var(--c-surface) 85%, transparent);
+}
+
+.circuit-corner {
+  position: relative;
+}
+.circuit-corner::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 22px;
+  width: 34px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-magenta), transparent);
+  opacity: 0.7;
+}
+.circuit-corner::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 16px;
+  width: 6px;
+  height: 6px;
+  border: 1.5px solid var(--color-magenta);
+  border-radius: 999px;
+  background: var(--c-bg);
+  opacity: 0.85;
+}
+
+.ambient-glow {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* -------------------- Semantic shortcuts --------------------
+   Thin wrappers around the runtime tokens so component markup
+   stays readable instead of full arbitrary-value utilities.
+--------------------------------------------------------------- */
+.bg-app { background-color: var(--c-bg); }
+.bg-panel { background-color: var(--c-surface); }
+.bg-panel-2 { background-color: var(--c-surface-2); }
+.bg-panel-hover:hover { background-color: var(--c-surface-hover); }
+.text-body { color: var(--c-ink); }
+.text-subtle { color: var(--c-muted); }
+.text-faint { color: var(--c-faint); }
+.border-app { border-color: var(--c-border); }
+.divide-app > * + * { border-color: var(--c-border); }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

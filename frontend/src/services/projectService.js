@@ -1,0 +1,35 @@
+import api from "./api";
+
+export const getProjects = async () => {
+  const { data } = await api.get("/projects");
+  return data;
+};
+
+export const getProjectById = async (id) => {
+  const { data } = await api.get(`/projects/${id}`);
+  return data;
+};
+
+export const createProject = async (payload) => {
+  const { data } = await api.post("/projects", payload);
+  return data;
+};
+
+export const updateProject = async (id, payload) => {
+  const { data } = await api.put(`/projects/${id}`, payload);
+  return data;
+};
+
+export const deleteProject = async (id) => {
+  const { data } = await api.delete(`/projects/${id}`);
+  return data;
+};
+
+export const uploadProductImage = async (projectId, file) => {
+  const formData = new FormData();
+  formData.append("productImage", file);
+  const { data } = await api.post(`/projects/${projectId}/product-image`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return data;
+};
