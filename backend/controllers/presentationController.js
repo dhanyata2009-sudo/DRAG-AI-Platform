@@ -3,6 +3,7 @@ const fs = require("fs");
 const Presentation = require("../models/Presentation");
 const { createHistoryLog } = require("./historyController");
 const { generatePresentation } = require("../services/presentationService");
+const { retrieveSourceContext } = require("../services/pptSourceRagService");
 
 // POST /api/presentations - create a draft record
 const createPresentationController = async (req, res) => {
@@ -49,17 +50,22 @@ const getPresentationById = async (req, res) => {
 // POST /api/presentations/generate
 const generatePresentationController = async (req, res) => {
   try {
-    const { presentationId, topic, title, slideCount, audience } = req.body;
+    const { presentationId, topic, title, slideCount, audience } = req.body || {};
 
     if (!topic) {
       return res.status(400).json({ success: false, message: "Topic is required" });
     }
+
+    const sourceContext = req.file
+      ? await retrieveSourceContext({ file: req.file, topic, title, audience })
+      : null;
 
     const result = await generatePresentation({
       topic,
       title,
       slideCount: Number(slideCount) || 6,
       audience,
+      sourceContext,
     });
 
     let presentation = null;
@@ -104,6 +110,7 @@ const generatePresentationController = async (req, res) => {
       message: "Presentation generated successfully",
       presentation,
       file: result,
+      source: sourceContext ? { fileName: sourceContext.sourceFileName, characters: sourceContext.sourceCharacters, retrievedChunks: sourceContext.retrievedChunks, retrievalMethod: sourceContext.retrievalMethod } : null,
     });
   } catch (error) {
     console.error("PPT generation error:", error);
@@ -133,4 +140,3 @@ module.exports = {
   generatePresentationController,
   downloadPresentationController,
 };
-

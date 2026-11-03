@@ -21,7 +21,7 @@ const initialData = {
   adStyle: "UGC",
   tone: "Friendly",
   language: "English",
-  videoDuration: "30s",
+  videoDuration: "15s",
   callToAction: "",
   avatar: null,
   voice: null,

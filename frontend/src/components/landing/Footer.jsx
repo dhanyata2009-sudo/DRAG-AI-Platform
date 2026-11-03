@@ -27,6 +27,8 @@ const columns = [
       { label: "About", href: "/#home" },
       { label: "Careers", href: "mailto:careers@drag.ai" },
       { label: "Contact", href: "mailto:hello@drag.ai" },
+      { label: "Video API", href: "https://docs.heygen.com/",target: "_blank", rel: "noopener noreferrer" },
+      { label: "PPT API", href: "https://higgsfield.ai/" ,target: "_blank", rel: "noopener noreferrer" },
     ],
   },
 ];
@@ -59,26 +61,39 @@ const Footer = () => (
         </div>
       </div>
 
-      {columns.map((col) => (
-        <div key={col.title}>
-          <h4 className="text-sm font-semibold text-body mb-4 font-display">{col.title}</h4>
-          <ul className="space-y-3">
-            {col.links.map((link) => (
-              <li key={link.label}>
-                {link.to ? (
-                  <Link to={link.to} className="text-sm text-subtle hover:text-body transition-colors">
-                    {link.label}
-                  </Link>
-                ) : (
-                  <a href={link.href} className="text-sm text-subtle hover:text-body transition-colors">
-                    {link.label}
-                  </a>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
+      
+{columns.map((col) => (
+  <div key={col.title}>
+    <h4 className="text-sm font-semibold text-body mb-4 font-display">
+      {col.title}
+    </h4>
+
+    <ul className="space-y-3">
+      {col.links.map((link) => (
+        <li key={link.label}>
+          {link.to ? (
+            <Link
+              to={link.to}
+              className="text-sm text-subtle hover:text-body transition-colors"
+            >
+              {link.label}
+            </Link>
+          ) : (
+            <a
+              href={link.href}
+              target={link.target}
+              rel={link.rel}
+              className="text-sm text-subtle hover:text-body transition-colors"
+            >
+              {link.label}
+            </a>
+          )}
+        </li>
       ))}
+    </ul>
+  </div>
+))}
+
     </div>
     <div className="border-t border-app py-6 px-5 sm:px-8 lg:px-10 flex flex-col sm:flex-row items-center justify-between gap-3 max-w-7xl mx-auto">
       <p className="text-xs text-faint">© {new Date().getFullYear()} DRAG.ai. All rights reserved.</p>

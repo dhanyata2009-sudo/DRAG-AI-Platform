@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, FileText, UploadCloud, X } from "lucide-react";
 
 import Button from "../components/common/Button";
 import Card from "../components/common/Card";
-import { Field, Input, Select } from "../components/common/FormFields";
+import { Field, Input, } from "../components/common/FormFields";
 import { usePPTCreation } from "../hooks/usePPTCreation";
 import { useWorkspace } from "../hooks/useWorkspace";
 import { ROUTES } from "../utils/constants";
 
 const CreatePPTPage = () => {
   const navigate = useNavigate();
-  const { data, updateData } = usePPTCreation();
+  const { data, updateData,selectedSourceFile, setSelectedSourceFile  } = usePPTCreation();
   const { createPresentation } = useWorkspace();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -73,6 +73,39 @@ const CreatePPTPage = () => {
               <Input id="targetAudience" name="targetAudience" required placeholder="e.g. College students" value={data.targetAudience} onChange={handleChange} />
             </Field>
           </div>
+
+                    <div className="space-y-2">
+            <label htmlFor="ppt-source-file" className="mb-1.5 block text-sm font-medium text-body">Source material <span className="text-subtle font-normal">(optional)</span></label>
+            <div className="rounded-xl border border-dashed border-app bg-panel-2/60 p-4 sm:p-5">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-start gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-panel">
+                    <FileText size={20} className="text-subtle" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-body">Ground the presentation in your own content</p>
+                    <p className="mt-1 text-xs text-subtle">Upload a PDF, photo, or article file. Relevant passages are retrieved and prioritized.</p>
+                    <p className="mt-1 text-xs text-subtle">PDF, PNG, JPG, WEBP, TXT, MD, CSV or HTML · up to 15 MB</p>
+                  </div>
+                </div>
+                <label htmlFor="ppt-source-file" className="inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-xl border border-app bg-panel px-4 py-2.5 text-sm font-medium text-body transition hover:bg-panel-2">
+                  <UploadCloud size={16} /> {selectedSourceFile ? "Replace file" : "Upload source"}
+                </label>
+                <input id="ppt-source-file" type="file" accept=".pdf,.png,.jpg,.jpeg,.webp,.txt,.md,.csv,.html,.htm,application/pdf,image/png,image/jpeg,image/webp,text/plain,text/markdown,text/csv,text/html" className="hidden" onChange={(event) => setSelectedSourceFile(event.target.files?.[0] || null)} />
+              </div>
+              {selectedSourceFile && (
+                <div className="mt-4 flex items-center justify-between gap-3 rounded-lg border border-app bg-panel px-3 py-2.5">
+                  <div className="flex min-w-0 items-center gap-2">
+                    <FileText size={16} className="shrink-0 text-subtle" />
+                    <span className="truncate text-sm text-body">{selectedSourceFile.name}</span>
+                    <span className="shrink-0 text-xs text-subtle">{(selectedSourceFile.size / (1024 * 1024)).toFixed(2)} MB</span>
+                  </div>
+                  <button type="button" aria-label="Remove source file" onClick={() => { setSelectedSourceFile(null); const input = document.getElementById("ppt-source-file"); if (input) input.value = ""; }} className="rounded-lg p-1.5 text-subtle transition hover:bg-panel-2 hover:text-body"><X size={16} /></button>
+                </div>
+              )}
+            </div>
+          </div>
+
 
           {error && <p className="text-sm text-red-400">{error}</p>}
 

@@ -20,6 +20,14 @@ export const getPresentationById = async (id) => {
 
 // POST /presentations/generate -> generates the actual pptx file
 export const generatePresentation = async (payload) => {
-  const { data } = await api.post("/presentations/generate", payload);
+   const formData = new FormData();
+  Object.entries(payload || {}).forEach(([key, value]) => {
+    if (key === "sourceFile") {
+      if (value instanceof File) formData.append("sourceFile", value);
+      return;
+    }
+    if (value !== undefined && value !== null) formData.append(key, String(value));
+  });
+  const { data } = await api.post("/presentations/generate", formData, { headers: { "Content-Type": "multipart/form-data" } });
   return data;
 };

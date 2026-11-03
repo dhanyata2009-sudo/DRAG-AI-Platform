@@ -104,7 +104,7 @@ const ProjectDetailPage = () => {
               ["Audience", project.brief?.targetAudience || "General audience"],
               ["Tone", project.brief?.tone || "Friendly"],
               ["Language", project.brief?.language || "English"],
-              ["Duration", project.brief?.duration || "30s"],
+              ["Duration", project.brief?.duration || "15s"],
               ["Avatar", project.brief?.avatar?.name || "AI creator"],
               ["Voice", project.brief?.voice?.name || "Natural voice"],
             ].map(([label, value]) => (

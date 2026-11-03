@@ -59,7 +59,7 @@ const Hero = () => (
           className="mt-8 flex flex-wrap items-center gap-3"
         >
           <Button as={Link} to={ROUTES.LOGIN} size="lg" icon={ArrowRight} iconPosition="right">
-            Open the demo
+            Get Started With DRAG.ai
           </Button>
           <Button as="a" href="#features" variant="secondary" size="lg" icon={Play}>
             Explore features

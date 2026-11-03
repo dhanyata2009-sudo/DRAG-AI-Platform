@@ -46,7 +46,7 @@ const Navbar = () => {
         <div className="hidden lg:flex items-center gap-3">
           <ThemeToggle />
           <Button as={Link} to={ROUTES.LOGIN} size="sm" icon={ArrowRight} iconPosition="right">
-            Demo login
+            Sign Up|Login
           </Button>
         </div>
 
@@ -76,7 +76,7 @@ const Navbar = () => {
           ))}
           <div className="flex flex-col gap-3 pt-2">
             <Button as={Link} to={ROUTES.LOGIN} fullWidth icon={ArrowRight} iconPosition="right">
-              Demo login
+              Sign Up|Login
             </Button>
           </div>
         </div>
